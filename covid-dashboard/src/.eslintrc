@@ -1,0 +1,15 @@
+// {
+//     "parser": "babel-eslint",
+//     "rules": {
+//         "no-unused-vars" : "warn"
+//     }
+// }
+{
+    "parser": "babel-eslint",
+    "extends": ["airbnb-base"],
+    "env": {
+        "browser": true,
+        "node": true,
+        "jasmine": true
+      }
+}

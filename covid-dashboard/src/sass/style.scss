@@ -1,0 +1,90 @@
+// Main layout
+body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  font-family: sans-serif;
+}
+// DEV CLASS then delete
+.block-name{
+  color: white;
+  text-align: center;
+  font-size: 40px;
+}
+
+header {
+  width: 100%;
+  height: 80px;
+  & .wrapper {
+    max-width: 96%;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    & .header-content {
+      width: 100%;
+      height: 95%;
+      background-color: rgba(170,170,170, 0.3);
+    }
+  }
+}
+main {
+  width: 100vw;
+}
+.wrapper {
+  max-width: 97%;
+  height: calc(100vh - 100px);
+  margin: 0 auto;
+}
+
+.main-columns {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  & .left-column {
+    width: 100px;
+    background-color: black;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .center-column {
+    width: 100px;
+    background-color: black;
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+  }
+
+  & .right-column {
+    width: 100px;
+    background-color: black;
+    flex-grow: 1.5;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.column-item {
+  width: 100%;
+  margin: 20px auto;
+  background-color: rgba(170,170,170, 0.3);
+}
+#global-cases {
+  height: 200px;
+}
+#countries-list {
+  height: 400px;
+}
+#map {
+  height: 90%;
+}
+#info-table {
+  height: 350px;
+}
+#diagram {
+  height: 250px;
+}
