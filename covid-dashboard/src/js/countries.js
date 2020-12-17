@@ -48,6 +48,7 @@ export const country_list = [{
     },
     {
         name: "Australia",
+        flag: "https://restcountries.eu/data/aus.svg",
         iso2: "AU",
         iso3: "AUS"
     },
