@@ -1,5 +1,12 @@
+// import countryBorders from './countries.json';
+
 const statKeys = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths', 'NewRecovered', 'TotalRecovered'];
-const map = L.map('mapid').setView([48.85661, 2.3515], 2);
+const map = L.map('mapid', {
+  fullscreenControl: true,
+  fullscreenControlOptions: {
+    position: 'topleft',
+  },
+}).setView([48.85661, 2.3515], 2);
 
 L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}.png?access-token=TFQR9zv1KyJTfUK8Vw0OwfFweiwlFj9H6vuJgnEj9pgbzHt48nlceXqL5MIohZ67', {
   minZoom: 2,
@@ -21,7 +28,6 @@ map.on('drag', () => {
 async function getData() {
   const countriesData = await (await fetch('https://restcountries.eu/rest/v2', { method: 'GET', redirect: 'follow' })).json();
   const covidData = await (await fetch('https://api.covid19api.com/summary', { method: 'GET', redirect: 'follow' })).json();
-
   return { covidData, countriesData };
 }
 
@@ -50,4 +56,36 @@ const createCircles = (res) => {
     }
   });
 };
+
 getData().then((res) => createCircles(res));
+
+function getColor(d) {
+  return d > 1000 ? '#800026'
+    : d > 500 ? '#BD0026'
+      : d > 200 ? '#E31A1C'
+        : d > 100 ? '#FC4E2A'
+          : d > 50 ? '#FD8D3C'
+            : d > 20 ? '#FEB24C'
+              : d > 10 ? '#FED976'
+                : '#FFEDA0';
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.density),
+    weight: 0.1,
+    opacity: 0,
+    color: 'white',
+    dashArray: '1',
+    fill: false,
+  };
+}
+
+async function getBorders() {
+  const countriesBorders = await (await fetch('../src/js/countries.json', { method: 'GET' })).json().then((res) => {
+    L.geoJson(res, { style }).addTo(map); // Borders
+  });
+  // return countriesBorders;
+}
+getBorders();
+// L.geoJson(getBorders(), { style }).addTo(map); // Borders
