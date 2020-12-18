@@ -8,6 +8,7 @@ const circleOptions = {
 };
 let countriesDataObject;
 let Circles = [];
+// let geoJsonObject;
 
 // Enable map
 const map = L.map('mapid', {
@@ -68,7 +69,6 @@ const getSizeDivisor = (i) => {
 };
 
 const createCircles = (res, i) => {
-  console.log(i);
   Circles.forEach((circle) => map.removeLayer(circle));
   Circles = [];
   res.countriesData.forEach((elem) => {
@@ -79,14 +79,14 @@ const createCircles = (res, i) => {
 
       const circle = L.circle(circleCenter, res.covidData.Countries
         .find((item) => item.Country === elem.name)[statKeys[key]] / sizeDevisor, circleOptions);
-      circle.bindPopup(`${elem.name}\n ${statKeys[key]}:${res.covidData.Countries
+      circle.bindPopup(`${elem.name}<br> ${statKeys[key]}:${res.covidData.Countries
         .find((item) => item.Country === elem.name)[statKeys[key]]}`, {
         maxWidth: 'auto',
       });
       Circles.push(circle);
       circle.addTo(map);
     } catch (e) {
-      console.log(e);
+      console.warn('GET DATA', e);
     }
   });
 };
@@ -126,6 +126,7 @@ function highlightCountry(e) {
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
   }
+  console.log(layer.feature.properties);
   info.update(layer.feature.properties);
 }
 
@@ -155,16 +156,40 @@ async function getBorders() {
 }
 
 info.onAdd = function (map) {
-  this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+  this.div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
   this.update();
-  return this._div;
+  return this.div;
 };
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
-  this._div.innerHTML = `<h4>US Population Density</h4>${props
-    ? `<b>${props.name}</b><br />${props.density} people / mi<sup>2</sup>`
-    : 'Hover over a state'}`;
+  if (!props) {
+    this.div.innerHTML = '<h4 >World Map</h4><br><p>Hover over a state</p>';
+  } else {
+    const arr = ['<h4 >World Map</h4>', `<b>${props.ADMIN}</b>`];
+
+    let numberValues = [];
+    const code = props.ISO_A3.slice(0, 2).toLowerCase();
+    statKeys.forEach((field) => {
+      try {
+        if (props.ADMIN !== 'Greenland') {
+          const value = countriesDataObject.covidData.Countries
+            .find((item) => item.Country === props.ADMIN || item.CountryCode.toLowerCase() === code)[field];
+          numberValues.push(value);
+        } else {
+          numberValues = Array(6).fill(0);
+        }
+      } catch (e) {
+        console.warn('HOVER', props.ADMIN, props.ISO_A3, code);
+      }
+    });
+
+    statKeys.forEach((field, i) => {
+      arr.push(`${field}:${numberValues[i]}`);
+    });
+
+    this.div.innerHTML = arr.join('<br>');
+  }
 };
 
 info.addTo(map);
