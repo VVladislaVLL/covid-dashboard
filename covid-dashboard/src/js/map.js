@@ -1,6 +1,15 @@
 // import countryBorders from './countries.json';
-
 const statKeys = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths', 'NewRecovered', 'TotalRecovered'];
+const circleOptions = {
+  color: 'red',
+  fill: true,
+  fillColor: '#f03',
+  fillOpacity: 0.5,
+};
+let countriesDataObject;
+let Circles = [];
+
+// Enable map
 const map = L.map('mapid', {
   fullscreenControl: true,
   fullscreenControlOptions: {
@@ -31,25 +40,50 @@ async function getData() {
   return { covidData, countriesData };
 }
 
-const createCircles = (res) => {
+const getSizeDivisor = (i) => {
+  let sizeDivisor = 1;
+  switch (+i) {
+    case 0:
+      sizeDivisor = 0.2;
+      break;
+    case 1:
+      sizeDivisor = 10;
+      break;
+    case 2:
+      sizeDivisor = 0.01;
+      break;
+    case 3:
+      sizeDivisor = 0.3;
+      break;
+    case 4:
+      sizeDivisor = 0.2;
+      break;
+    case 5:
+      sizeDivisor = 10;
+      break;
+    default:
+      break;
+  }
+  return sizeDivisor;
+};
+
+const createCircles = (res, i) => {
+  console.log(i);
+  Circles.forEach((circle) => map.removeLayer(circle));
+  Circles = [];
   res.countriesData.forEach((elem) => {
     try {
       const circleCenter = elem.latlng;
-      const circleOptions = {
-        color: 'red',
-        fill: true,
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-      };
-      const key = 1;
-      const sizeDevisor = 8;
+      const sizeDevisor = getSizeDivisor(i);
+      const key = i;
+
       const circle = L.circle(circleCenter, res.covidData.Countries
         .find((item) => item.Country === elem.name)[statKeys[key]] / sizeDevisor, circleOptions);
       circle.bindPopup(`${elem.name}\n ${statKeys[key]}:${res.covidData.Countries
         .find((item) => item.Country === elem.name)[statKeys[key]]}`, {
         maxWidth: 'auto',
-
       });
+      Circles.push(circle);
       circle.addTo(map);
     } catch (e) {
       console.log(e);
@@ -57,35 +91,87 @@ const createCircles = (res) => {
   });
 };
 
-getData().then((res) => createCircles(res));
+getData().then((res) => {
+  countriesDataObject = res;
+  return res;
+}).then((res) => createCircles(res, 1));
 
-function getColor(d) {
-  return d > 1000 ? '#800026'
-    : d > 500 ? '#BD0026'
-      : d > 200 ? '#E31A1C'
-        : d > 100 ? '#FC4E2A'
-          : d > 50 ? '#FD8D3C'
-            : d > 20 ? '#FEB24C'
-              : d > 10 ? '#FED976'
-                : '#FFEDA0';
-}
-
-function style(feature) {
+function styleBorders() {
   return {
-    fillColor: getColor(feature.properties.density),
     weight: 0.1,
     opacity: 0,
     color: 'white',
     dashArray: '1',
-    fill: false,
+    fill: true,
+    fillOpacity: 0,
   };
 }
 
-async function getBorders() {
-  const countriesBorders = await (await fetch('../src/js/countries.json', { method: 'GET' })).json().then((res) => {
-    L.geoJson(res, { style }).addTo(map); // Borders
+// Borders
+let geojson;
+const info = L.control();
+
+function highlightCountry(e) {
+  const layer = e.target;
+
+  layer.setStyle({
+    weight: 0.3,
+    color: '#666',
+    opacity: 1,
+    dashArray: '',
+    fillColor: '#FFF',
+    fillOpacity: 0.1,
   });
-  // return countriesBorders;
+
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+  info.update(layer.feature.properties);
 }
+
+function resetHighlightCountry(e) {
+  geojson.resetStyle(e.target);
+  info.update();
+}
+function zoomToCountry(e) {
+  map.fitBounds(e.target.getBounds());
+}
+
+function onFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightCountry,
+    mouseout: resetHighlightCountry,
+    click: zoomToCountry,
+  });
+}
+
+async function getBorders() {
+  await (await fetch('../src/js/countries.json', { method: 'GET' })).json().then((res) => {
+    geojson = L.geoJson(res, {
+      style: styleBorders,
+      onEachFeature: onFeature,
+    }).addTo(map);
+  });
+}
+
+info.onAdd = function (map) {
+  this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+  this.update();
+  return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+  this._div.innerHTML = `<h4>US Population Density</h4>${props
+    ? `<b>${props.name}</b><br />${props.density} people / mi<sup>2</sup>`
+    : 'Hover over a state'}`;
+};
+
+info.addTo(map);
 getBorders();
-// L.geoJson(getBorders(), { style }).addTo(map); // Borders
+
+const select = document.querySelector('#select-field');
+select.addEventListener('change', (event) => {
+  const index = event.target.options[event.target.selectedIndex].value;
+  createCircles(countriesDataObject, index);
+});
