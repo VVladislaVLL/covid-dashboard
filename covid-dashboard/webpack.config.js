@@ -90,7 +90,9 @@ module.exports = {
     mode: 'development',
     entry: {
         main: './src/js/index.js',
-        map: './src/js/map.js'
+        map: './src/js/map.js',
+        fullscreen: './src/js/Control.FullScreen.js',
+        globalCases: './src/js/global-cases.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -115,7 +117,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/html/index.html',
-            chunks: ['main', 'map'],
+            chunks: ['main', 'map', 'fullscreen', 'globalCases'],
             minify: {
                 collapseWhitespace: isProd
             }
@@ -124,8 +126,12 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve(__dirname, './assets/images/favicon.png'),
+                    from: path.resolve(__dirname, './assets/icons/icon-fullscreen.png'),
                     to: path.resolve(__dirname, 'dist')
+                },
+                {
+                  from: path.resolve(__dirname, './assets/icons/icon-fullscreen-2x.png'),
+                  to: path.resolve(__dirname, 'dist')
                 }
             ]
         }),
