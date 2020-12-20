@@ -200,3 +200,26 @@ select.addEventListener('change', (event) => {
   const index = event.target.options[event.target.selectedIndex].value;
   createCircles(countriesDataObject, index);
 });
+
+// --------------------------------------------------------
+// Legend
+const legend = L.control({ position: 'bottomleft' });
+
+legend.onAdd = function (map) {
+  let div = L.DomUtil.create('div', 'info legend');
+  const grades = [0, 100, 1000, 10000, 100000, 1000000, 10000000];
+  const labels = [];
+
+  div.innerHTML = '<h4>Legend</h4>';
+  div.innerHTML += '<ul>';
+
+  for (let i = 0; i < grades.length; i += 1) {
+    div.innerHTML
+      += `<li class="size${i}"><i style="background: red"></i><span>${
+        grades[i]}${grades[i + 1] ? `&ndash;${grades[i + 1]}</span></li>` : '+'}`;
+  }
+  div.innerHTML += '</ul>';
+  return div;
+};
+
+legend.addTo(map);
