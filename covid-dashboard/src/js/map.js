@@ -1,4 +1,3 @@
-// import countryBorders from './countries.json';
 const statKeys = ['NewConfirmed', 'TotalConfirmed', 'NewDeaths', 'TotalDeaths', 'NewRecovered', 'TotalRecovered'];
 const circleOptions = {
   color: 'red',
@@ -8,9 +7,7 @@ const circleOptions = {
 };
 let countriesDataObject;
 let Circles = [];
-// let geoJsonObject;
 
-// Enable map
 const map = L.map('mapid', {
   fullscreenControl: true,
   fullscreenControlOptions: {
@@ -24,7 +21,6 @@ L.tileLayer('https://tile.jawg.io/jawg-dark/{z}/{x}/{y}.png?access-token=TFQR9zv
 }).addTo(map);
 map.attributionControl.addAttribution('<a href="https://www.jawg.io" target="_blank">&copy; Jawg</a> - <a href="https://www.openstreetmap.org" target="_blank">&copy; OpenStreetMap</a>&nbsp;contributors');
 
-// Zone limitation
 const southWest = L.latLng(-81, -175);
 const northEast = L.latLng(84.5, 190);
 const bounds = L.latLngBounds(southWest, northEast);
@@ -34,7 +30,6 @@ map.on('drag', () => {
   map.panInsideBounds(bounds, { animate: false });
 });
 
-// get Data
 async function getData() {
   const countriesData = await (await fetch('https://restcountries.eu/rest/v2', { method: 'GET', redirect: 'follow' })).json();
   const covidData = await (await fetch('https://api.covid19api.com/summary', { method: 'GET', redirect: 'follow' })).json();
@@ -107,7 +102,6 @@ function styleBorders() {
   };
 }
 
-// Borders
 let geojson;
 const info = L.control();
 
@@ -156,12 +150,11 @@ async function getBorders() {
 }
 
 info.onAdd = function (map) {
-  this.div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+  this.div = L.DomUtil.create('div', 'info');
   this.update();
   return this.div;
 };
 
-// method that we will use to update the control based on feature properties passed
 info.update = function (props) {
   if (!props) {
     this.div.innerHTML = '<h4 >World Map</h4><br><p>Hover over a state</p>';
@@ -170,22 +163,32 @@ info.update = function (props) {
 
     let numberValues = [];
     const code = props.ISO_A3.slice(0, 2).toLowerCase();
+    const code2 = props.ISO_A3.slice(0).toLowerCase();
     statKeys.forEach((field) => {
       try {
-        if (props.ADMIN !== 'Greenland') {
-          const value = countriesDataObject.covidData.Countries
-            .find((item) => item.Country === props.ADMIN || item.CountryCode.toLowerCase() === code)[field];
-          numberValues.push(value);
+        if (props.ADMIN === 'Greenland'
+          || props.ADMIN === 'Iran'
+          || props.ADMIN === 'Democratic Republic of the Congo') {
+          numberValues = Array(6).fill('-');
         } else {
-          numberValues = Array(6).fill(0);
+          const value = countriesDataObject.covidData.Countries
+            .find((item) => item.Country === props.ADMIN
+              || item.CountryCode.toLowerCase() === code
+              || item.CountryCode.toLowerCase() === code2)[field];
+          numberValues.push(value);
         }
       } catch (e) {
         console.warn('HOVER', props.ADMIN, props.ISO_A3, code);
+        numberValues = Array(6).fill('-');
       }
     });
 
     statKeys.forEach((field, i) => {
-      arr.push(`${field}:${numberValues[i]}`);
+      if (numberValues[i] !== undefined) {
+        arr.push(`${field}:${numberValues[i]}`);
+      } else {
+        arr.push(`${field}:-`);
+      }
     });
 
     this.div.innerHTML = arr.join('<br>');
@@ -201,12 +204,10 @@ select.addEventListener('change', (event) => {
   createCircles(countriesDataObject, index);
 });
 
-// --------------------------------------------------------
-// Legend
 const legend = L.control({ position: 'bottomleft' });
 
 legend.onAdd = function (map) {
-  let div = L.DomUtil.create('div', 'info legend');
+  const div = L.DomUtil.create('div', 'info legend');
   const grades = [0, 100, 1000, 10000, 100000, 1000000, 10000000];
   const labels = [];
 

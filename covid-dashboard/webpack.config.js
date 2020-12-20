@@ -92,7 +92,7 @@ module.exports = {
         main: './src/js/index.js',
         map: './src/js/map.js',
         fullscreen: './src/js/Control.FullScreen.js',
-        globalCases: './src/js/global-cases.js',
+        // globalCases: './src/js/global-cases.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -117,7 +117,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/html/index.html',
-            chunks: ['main', 'map', 'fullscreen', 'globalCases'],
+            chunks: ['main', 'map', 'fullscreen'/*, 'globalCases'*/],
             minify: {
                 collapseWhitespace: isProd
             }
