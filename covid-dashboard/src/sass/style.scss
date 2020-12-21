@@ -90,13 +90,34 @@ main {
   height: 400px;
 }
 //#mapid { height: 180px; }
-#mapid {
-  margin: 0 auto;
-  height: 90%;
-}
+
 #info-table {
   height: 350px;
 }
 #diagram {
   height: 250px;
+}
+
+@media (max-width:1024px) {
+  .block-title {
+    font-size: 35px;
+  }
+}
+
+@media (max-width:768px) {
+  .main-columns {
+    flex-direction: column;
+    gap: 0;
+    & .left-column {
+      width: 100%;
+    }
+
+    & .center-column {
+      width: 100%;
+    }
+
+    & .right-column {
+      width: 100%;
+    }
+  }
 }
