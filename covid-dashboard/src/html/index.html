@@ -6,13 +6,15 @@
     <link rel="stylesheet" href="../../src/css/Control.FullScreen.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="https://raw.githubusercontent.com/leaflet-extras/leaflet-providers/master/leaflet-providers.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <title>COVID-2019 Dashboard</title>
 </head>
-<body>
+<body style="overflow-x: hidden">
     <header>
         <div class="wrapper">
             <div class="header-content">
-                <h1 class="block-name">Header</h1>
+                <h1 class="block-title">C<span style="color: darkred">O</span>VID-2019 Dashboard</h1>
             </div>
         </div>
     </header>
@@ -49,6 +51,23 @@
                     </div>
                 </div>
             </div>
+            <footer class="abs-footer">
+                <div class="content-footer">
+                    <div class="rss-block">
+                        <img class="rss-img" src="../assets/icons/rsschool.svg" alt="logo-rss">
+                        <a class="rss-link" href="https://rs.school/js/"><span>rs.school</span></a>
+                    </div>
+                    <div class="about-yourself">
+                        <ul>
+                            <li><span class="author author-name">Vladislav Kochurko</span> <a class="author author-github" href="https://github.com/VVladislaVLL"><span >github.com/VVladislaVLL</span></a></li>
+                            <li><span class="author author-name">Victor</span> <a class="author author-github" href="https://github.com/"><span >github.com/</span></a></li>
+                            <li><span class="author author-name">Vadim</span> <a class="author author-github" href="https://github.com/"><span >github.com/</span></a></li>
+<!--                            <li class="author-mail"><a class="author" href="mailto:vlad2002kochurko@gmail.com"><span >vlad2002kochurko@gmail.com</span></a></li>-->
+<!--                            <li class="author-github"><a class="author author-github" href="https://github.com/VVladislaVLL"><span >github.com/VVladislaVLL</span></a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </footer>
         </div>
     </main>
 </body>
