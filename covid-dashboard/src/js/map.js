@@ -212,7 +212,7 @@ legend.onAdd = function (map) {
 
   div.innerHTML = '<h4>Legend</h4>';
   div.innerHTML += '<ul>';
-
+  div.addEventListener('click', () => document.querySelector('#mapid').requestFullscreen());
   for (let i = 0; i < grades.length; i += 1) {
     div.innerHTML
       += `<li class="size${i}"><i style="background: red"></i><span>${
