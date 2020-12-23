@@ -1,0 +1,10 @@
+import '../css/reset.css';
+import '../sass/style.scss';
+import './table';
+// import '../assets/arrow1.svg';
+// import '../assets/arrow2.svg';
+import '../sass/scroll.scss';
+import '../sass/table-block.scss';
+import '../sass/map_control.scss';
+import '../sass/footer.scss';
+import '../sass/legend.scss';
