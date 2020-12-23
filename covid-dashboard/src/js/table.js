@@ -12,12 +12,64 @@ const state = {
   deaths: false,
 };
 
-async function getDataByCountry() {
-  const countriesDataInJSON = await fetch(urlByCountry);
-  state.dataCountryInfo = await countriesDataInJSON.json();
-  createDataStructure(state.dataCountryInfo);
-}
+const createTable = (dataForCreation) => {
+  if (document.querySelector('#countries__table')) {
+    document.querySelector('#countries__table').remove();
+  }
 
+  const table = document.createElement('table');
+  table.id = 'countries__table';
+  infoTable.appendChild(table);
+
+  dataForCreation.forEach((element) => {
+    const row = document.createElement('tr');
+    row.classList.add('countries__table-row');
+    table.appendChild(row);
+
+    const cellWithData = document.createElement('td');
+    cellWithData.classList.add('countries__table-cell', 'data');
+    cellWithData.innerText = element.data.toLocaleString();
+    row.appendChild(cellWithData);
+
+    const cellWithName = document.createElement('td');
+    cellWithName.classList.add('countries__table-cell', 'data');
+    cellWithName.innerText = element.name;
+    row.appendChild(cellWithName);
+
+    const cellWithFlag = document.createElement('td');
+    cellWithFlag.classList.add('countries__table-cell', 'flag');
+    row.appendChild(cellWithFlag);
+
+    const flagImage = document.createElement('img');
+    flagImage.classList.add('flag-image');
+    flagImage.src = element.flag;
+    cellWithFlag.appendChild(flagImage);
+  });
+};
+
+const sortCountryDataByDefault = () => {
+  const array = [];
+  const tableDisplayData = state.dataCountryInfo;
+  tableDisplayData.sort((a, b) => {
+    if (a.cases < b.cases) { return 1; }
+    if (a.cases > b.cases) { return -1; }
+    return 0;
+  });
+  tableDisplayData.forEach((element) => {
+    const obj = {
+      data: element.cases,
+      name: element.country,
+      flag: element.countryInfo.flag,
+      // eslint-disable-next-line no-underscore-dangle
+      id: element.countryInfo._id,
+      iso: element.countryInfo.iso3,
+    };
+    array.push(obj);
+  });
+  createTable(array);
+};
+
+/* eslint-disable no-param-reassign */
 const createDataStructure = (countriesDataArray) => {
   countriesDataArray.forEach((element) => {
     element.totalConfirmedAverage = Math.round(element.casesPerOneMillion * 10) / 100;
@@ -39,26 +91,11 @@ const createDataStructure = (countriesDataArray) => {
   sortCountryDataByDefault();
 };
 
-const sortCountryDataByDefault = () => {
-  const array = [];
-  const tableDisplayData = state.dataCountryInfo;
-  tableDisplayData.sort((a, b) => {
-    if (a.cases < b.cases) { return 1; }
-    if (a.cases > b.cases) { return -1; }
-    return 0;
-  });
-  tableDisplayData.forEach((element) => {
-    const obj = {
-      data: element.cases,
-      name: element.country,
-      flag: element.countryInfo.flag,
-      id: element.countryInfo._id,
-      iso: element.countryInfo.iso3,
-    };
-    array.push(obj);
-  });
-  createTable(array);
-};
+async function getDataByCountry() {
+  const countriesDataInJSON = await fetch(urlByCountry);
+  state.dataCountryInfo = await countriesDataInJSON.json();
+  createDataStructure(state.dataCountryInfo);
+}
 
 const sortCountryDataByClick = () => {
   const array = [];
@@ -110,41 +147,6 @@ const sortCountryDataByClick = () => {
     array.push(obj);
   });
   createTable(array);
-};
-
-const createTable = (dataForCreation) => {
-  if (document.querySelector('#countries__table')) {
-    document.querySelector('#countries__table').remove();
-  }
-
-  const table = document.createElement('table');
-  table.id = 'countries__table';
-  infoTable.appendChild(table);
-
-  dataForCreation.forEach((element) => {
-    const row = document.createElement('tr');
-    row.classList.add('countries__table-row');
-    table.appendChild(row);
-
-    const cellWithData = document.createElement('td');
-    cellWithData.classList.add('countries__table-cell', 'data');
-    cellWithData.innerText = element.data.toLocaleString();
-    row.appendChild(cellWithData);
-
-    const cellWithName = document.createElement('td');
-    cellWithName.classList.add('countries__table-cell', 'data');
-    cellWithName.innerText = element.name;
-    row.appendChild(cellWithName);
-
-    const cellWithFlag = document.createElement('td');
-    cellWithFlag.classList.add('countries__table-cell', 'flag');
-    row.appendChild(cellWithFlag);
-
-    const flagImage = document.createElement('img');
-    flagImage.classList.add('flag-image');
-    flagImage.src = element.flag;
-    cellWithFlag.appendChild(flagImage);
-  });
 };
 
 const firstPageLoad = () => {
