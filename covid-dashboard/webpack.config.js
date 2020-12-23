@@ -68,13 +68,16 @@ const getModules = () => {
         }
     ];
 
-    if (isDev) {
-        modulesArr.push({
-            test: /\.js$/,
-            exclude: /(node_modules)/,
-            loader: 'eslint-loader'
-        });
-    };
+
+    // if (isDev) {
+    //     modulesArr.push(
+    //         {
+    //             test: /\.js$/,
+    //             exclude: /(node_modules)/,
+    //             loader:  'eslint-loader'
+    //         }
+    //     );
+    // };
 
     return modulesArr;
 }
@@ -89,7 +92,8 @@ module.exports = {
         currentInfected: './src/js/currentInfected.js',
         infected__list: './src/js/infected__list.js',
         search: './src/js/search.js',
-        keyboard: './src/js/keyboard.js'
+        keyboard: './src/js/keyboard.js',
+        map: './src/js/map.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -114,20 +118,24 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/html/index.html',
-            chunks: ['main', 'countries', 'currentInfected', 'infected__list', 'search.js', 'keyboard.js'],
+            chunks: ['main', 'map', 'fullscreen', 'countries', 'currentInfected', 'infected__list', 'search.js', 'keyboard.js'],
             minify: {
                 collapseWhitespace: isProd
             }
         }),
         new CleanWebpackPlugin(),
-        // new CopyWebpackPlugin({
-        //     patterns: [
-        //         {
-        //             from: path.resolve(__dirname, './assets/images/favicon.png'),
-        //             to: path.resolve(__dirname, 'dist')
-        //         }
-        //     ]
-        // }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, './assets/icons/icon-fullscreen.png'),
+                    to: path.resolve(__dirname, 'dist')
+                },
+                {
+                  from: path.resolve(__dirname, './assets/icons/icon-fullscreen-2x.png'),
+                  to: path.resolve(__dirname, 'dist')
+                }
+            ]
+        }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         })

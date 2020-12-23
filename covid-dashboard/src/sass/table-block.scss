@@ -1,0 +1,38 @@
+.flag-image {
+    width: 20px;
+    margin-left: 3rem;
+}
+  
+.button__statistics-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+  
+.button__control-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+  
+.button {
+    border: 1px solid rgb(90, 1, 1);  
+    font-family: 'Roboto', sans-serif;
+    color: rgb(215, 218, 214);
+    font-size: 0.75rem;
+    font-weight: bold;
+    background-color: black;		
+}
+  
+.button.select {
+    border-width: 1px;
+    border-color: red;
+    background-color: rgb(156, 0, 0);
+}
+  
+.button__last-day-countries {
+    margin-right: 2rem;
+}
