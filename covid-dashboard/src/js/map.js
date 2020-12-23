@@ -120,7 +120,6 @@ function highlightCountry(e) {
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
   }
-  console.log(layer.feature.properties);
   info.update(layer.feature.properties);
 }
 
@@ -209,11 +208,10 @@ const legend = L.control({ position: 'bottomleft' });
 legend.onAdd = function (map) {
   const div = L.DomUtil.create('div', 'info legend');
   const grades = [0, 100, 1000, 10000, 100000, 1000000, 10000000];
-  const labels = [];
 
   div.innerHTML = '<h4>Legend</h4>';
   div.innerHTML += '<ul>';
-
+  div.addEventListener('click', () => document.querySelector('#mapid').requestFullscreen());
   for (let i = 0; i < grades.length; i += 1) {
     div.innerHTML
       += `<li class="size${i}"><i style="background: red"></i><span>${
@@ -224,3 +222,10 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
+const divMap = document.querySelector('#mapid');
+divMap.addEventListener('keypress', (e) => {
+  if (e.keyCode === 111) {
+    document.querySelector('#mapid').requestFullscreen();
+  }
+});

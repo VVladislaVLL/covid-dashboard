@@ -12,6 +12,9 @@ body {
   font-size: 40px;
 }
 
+div {
+  border-radius: 5px;
+}
 .block-title{
   color: white;
   text-align: center;
@@ -42,7 +45,6 @@ main {
 }
 .wrapper {
   max-width: 97%;
-  height: calc(100vh - 100px);
   margin: 0 auto;
 }
 
@@ -98,26 +100,33 @@ main {
   height: 250px;
 }
 
-@media (max-width:1024px) {
-  .block-title {
-    font-size: 35px;
-  }
-}
-
-@media (max-width:768px) {
+@media (max-width:1050px) {
   .main-columns {
     flex-direction: column;
     gap: 0;
-    & .left-column {
-      width: 100%;
-    }
-
     & .center-column {
+      order: 1;
       width: 100%;
+      flex-grow: 1;
+      height: 600px;
     }
 
     & .right-column {
+      order: 3;
       width: 100%;
+      gap: 10px;
+      flex-grow: 1;
     }
+
+    & .left-column {
+      order: 2;
+      width: 100%;
+      flex-direction: row;
+      gap: 10px;
+      flex-grow: 1;
+    }
+  }
+  .block-title {
+    font-size: 35px;
   }
 }

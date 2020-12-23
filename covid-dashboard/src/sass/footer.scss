@@ -5,7 +5,6 @@
   height: 120px;
   display: flex;
   justify-content: space-between;
-  //justify-content: space-around;
   align-items: center;
 }
 
@@ -53,19 +52,5 @@
   &:hover {
     cursor: pointer;
     opacity: 0.7;
-  }
-}
-
-@media (max-width:500px) {
-  .author {
-    font-size: 14px;
-  }
-
-  .rss-img {
-    width: 80px;
-  }
-
-  .rss-link {
-    font-size: 20px;
   }
 }

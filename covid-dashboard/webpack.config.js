@@ -91,7 +91,7 @@ module.exports = {
     entry: {
         main: './src/js/index.js',
         map: './src/js/map.js',
-        fullscreen: './src/js/Control.FullScreen.js',
+        // fullscreen: './src/js/Control.FullScreen.js',
         // globalCases: './src/js/global-cases.js',
     },
     output: {
