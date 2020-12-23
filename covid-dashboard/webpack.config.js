@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -13,11 +13,11 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 const optimization = () => {
     const config = {
-            splitChunks: {
-                chunks: 'all'
-            }
+        splitChunks: {
+            chunks: 'all'
         }
-    if(isProd) {
+    }
+    if (isProd) {
         config.minimizer = [
             new OptimizeCssAssetsPlugin(),
             new TerserWebpackPlugin()
@@ -27,11 +27,9 @@ const optimization = () => {
 }
 
 const getModules = () => {
-    const modulesArr = [
-        {
+    const modulesArr = [{
             test: /\.css$/,
-            use:  [ 
-                {
+            use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         hmr: isDev,
@@ -44,8 +42,7 @@ const getModules = () => {
         },
         {
             test: /\.s[ac]ss$/,
-            use:  [ 
-                {
+            use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         hmr: isDev,
@@ -57,28 +54,26 @@ const getModules = () => {
                 'sass-loader'
             ],
         },
-        { 
+        {
             test: /\.(png|jpg|jpeg|gif|svg)$/,
             use: ['file-loader'],
         },
-        { 
+        {
             test: /\.(ttf|woff|woff2|eot)$/,
             use: ['file-loader'],
         },
-        { 
+        {
             test: /\.mp3$/,
             use: ['file-loader'],
         }
     ];
 
     if (isDev) {
-        modulesArr.push(
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                loader:  'eslint-loader'
-            }
-        );
+        modulesArr.push({
+            test: /\.js$/,
+            exclude: /(node_modules)/,
+            loader: 'eslint-loader'
+        });
     };
 
     return modulesArr;
@@ -90,7 +85,11 @@ module.exports = {
     mode: 'development',
     entry: {
         main: './src/js/index.js',
-
+        countries: './src/js/countries.js',
+        currentInfected: './src/js/currentInfected.js',
+        infected__list: './src/js/infected__list.js',
+        search: './src/js/search.js',
+        keyboard: './src/js/keyboard.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -115,7 +114,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/html/index.html',
-            chunks: ['main'],
+            chunks: ['main', 'countries', 'currentInfected', 'infected__list', 'search.js', 'keyboard.js'],
             minify: {
                 collapseWhitespace: isProd
             }
@@ -133,7 +132,7 @@ module.exports = {
             filename: '[name].[contenthash].css',
         })
     ],
-    module: { 
+    module: {
         rules: getModules()
     }
 }
