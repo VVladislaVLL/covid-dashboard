@@ -65,6 +65,7 @@ main {
         flex-direction: column;
     }
     & .center-column {
+        flex-direction: column;
         width: 100px;
         background-color: black;
         flex-grow: 3;

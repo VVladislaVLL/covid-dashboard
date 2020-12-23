@@ -45,6 +45,12 @@ const createTable = (dataForCreation) => {
     flagImage.src = element.flag;
     cellWithFlag.appendChild(flagImage);
   });
+
+  // infoTable.addEventListener('keypress', (e) => {
+  //   if (e.keyCode === 111) {
+  //     document.querySelector('#info-table').requestFullscreen();
+  //   }
+  // });
 };
 
 const sortCountryDataByDefault = () => {
@@ -241,3 +247,14 @@ const changeDataInAllModules = (event) => {
 };
 
 infoTable.addEventListener('click', (event) => changeDataInAllModules(event));
+
+// infoTable.addEventListener('keypress', (e) => {
+//   if (e.keyCode === 111) {
+//     document.querySelector('#info-table').requestFullscreen();
+//   }
+// });
+
+// const fullScreen = document.querySelector('#fullscreen');
+// fullScreen.addEventListener('click', () => {
+//   infoTable.classList.toggle('fullscreen');
+// });

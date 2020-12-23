@@ -36,3 +36,21 @@
 .button__last-day-countries {
     margin-right: 2rem;
 }
+
+#countries__table {
+    margin-left: 10px;
+}
+
+.countries__table-cell {
+    text-align: center;
+}
+
+.countries__table-cell:nth-child(1) {
+    color: rgb(88, 127, 171);
+    font-weight: 700;
+}
+
+.countries__table-cell:nth-child(2) {
+    color: grey;
+    font-weight: 700;
+}
