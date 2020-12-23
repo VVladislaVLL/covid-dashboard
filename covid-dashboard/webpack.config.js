@@ -71,15 +71,15 @@ const getModules = () => {
         }
     ];
 
-    if (isDev) {
-        modulesArr.push(
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                loader:  'eslint-loader'
-            }
-        );
-    };
+    // if (isDev) {
+    //     modulesArr.push(
+    //         {
+    //             test: /\.js$/,
+    //             exclude: /(node_modules)/,
+    //             loader:  'eslint-loader'
+    //         }
+    //     );
+    // };
 
     return modulesArr;
 }

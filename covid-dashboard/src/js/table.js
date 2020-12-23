@@ -4,60 +4,60 @@ const urlByCountry = 'https://disease.sh/v3/covid-19/countries';
 const infoTable = document.querySelector('#info-table');
 
 const state = {
-    dataCountryInfo: null, 
-    allPeriod: true,
-    absValue: true,
-    confirmed: true,
-    recovered: false,
-    deaths: false,
+  dataCountryInfo: null,
+  allPeriod: true,
+  absValue: true,
+  confirmed: true,
+  recovered: false,
+  deaths: false,
 };
 
 async function getDataByCountry() {
-    const countriesDataInJSON = await fetch(urlByCountry);
-    state.dataCountryInfo = await countriesDataInJSON.json();
-    createDataStructure(state.dataCountryInfo);
+  const countriesDataInJSON = await fetch(urlByCountry);
+  state.dataCountryInfo = await countriesDataInJSON.json();
+  createDataStructure(state.dataCountryInfo);
 }
 
 const createDataStructure = (countriesDataArray) => {
-    countriesDataArray.forEach((element) => {
-      element.totalConfirmedAverage = Math.round(element.casesPerOneMillion * 10) / 100;
-      element.totalDeathsAverage = Math.round(element.deathsPerOneMillion * 10) / 100;
-      element.totalRecoveredAverage = Math.round(element.recoveredPerOneMillion * 10) / 100;
-      if (element.population === 0) {
-        element.todayConfirmedAverage = 0;
-        element.todayDeathsAverage = 0;
-        element.todayRecoveredAverage = 0;
-      } else {
-        element.todayConfirmedAverage = Math.round((element.todayCases
+  countriesDataArray.forEach((element) => {
+    element.totalConfirmedAverage = Math.round(element.casesPerOneMillion * 10) / 100;
+    element.totalDeathsAverage = Math.round(element.deathsPerOneMillion * 10) / 100;
+    element.totalRecoveredAverage = Math.round(element.recoveredPerOneMillion * 10) / 100;
+    if (element.population === 0) {
+      element.todayConfirmedAverage = 0;
+      element.todayDeathsAverage = 0;
+      element.todayRecoveredAverage = 0;
+    } else {
+      element.todayConfirmedAverage = Math.round((element.todayCases
           / (element.population / 100000)) * 100) / 100;
-        element.todayDeathsAverage = Math.round((element.todayDeaths
+      element.todayDeathsAverage = Math.round((element.todayDeaths
           / (element.population / 100000)) * 100) / 100;
-        element.todayRecoveredAverage = Math.round((element.todayRecovered
+      element.todayRecoveredAverage = Math.round((element.todayRecovered
           / (element.population / 100000)) * 100) / 100;
-      }
-    });
-    sortCountryDataByDefault();
+    }
+  });
+  sortCountryDataByDefault();
 };
 
 const sortCountryDataByDefault = () => {
-    const array = [];
-    const tableDisplayData = state.dataCountryInfo;
-    tableDisplayData.sort((a, b) => {
-      if (a.cases < b.cases) { return 1; }
-      if (a.cases > b.cases) { return -1; }
-      return 0;
-    });
-    tableDisplayData.forEach((element) => {
-      const obj = {
-        data: element.cases,
-        name: element.country,
-        flag: element.countryInfo.flag,
-        id: element.countryInfo._id,
-        iso: element.countryInfo.iso3,
-      };
-      array.push(obj);
-    });
-    createTable(array);
+  const array = [];
+  const tableDisplayData = state.dataCountryInfo;
+  tableDisplayData.sort((a, b) => {
+    if (a.cases < b.cases) { return 1; }
+    if (a.cases > b.cases) { return -1; }
+    return 0;
+  });
+  tableDisplayData.forEach((element) => {
+    const obj = {
+      data: element.cases,
+      name: element.country,
+      flag: element.countryInfo.flag,
+      id: element.countryInfo._id,
+      iso: element.countryInfo.iso3,
+    };
+    array.push(obj);
+  });
+  createTable(array);
 };
 
 const sortCountryDataByClick = () => {
@@ -65,9 +65,9 @@ const sortCountryDataByClick = () => {
   const tableDisplayData = state.dataCountryInfo;
   const period = state.allPeriod;
   const value = state.absValue;
-  const confirmed = state.confirmed;
-  const deaths = state.deaths;
-  const recovered = state.recovered;
+  const { confirmed } = state;
+  const { deaths } = state;
+  const { recovered } = state;
   let paramName = 'cases';
 
   if (period === true && value === true && confirmed === true) {
@@ -113,43 +113,42 @@ const sortCountryDataByClick = () => {
 };
 
 const createTable = (dataForCreation) => {
-    if (document.querySelector('#countries__table')) {
-      document.querySelector('#countries__table').remove();
-    }
-  
-    const table = document.createElement('table');
-    table.id = 'countries__table';
-    infoTable.appendChild(table);
-  
-    dataForCreation.forEach((element) => {
-      const row = document.createElement('tr');
-      row.classList.add('countries__table-row');
-      table.appendChild(row);
-  
-      const cellWithData = document.createElement('td');
-      cellWithData.classList.add('countries__table-cell', 'data');
-      cellWithData.innerText = element.data.toLocaleString();
-      row.appendChild(cellWithData);
-  
-      const cellWithName = document.createElement('td');
-      cellWithName.classList.add('countries__table-cell', 'data');
-      cellWithName.innerText = element.name;
-      row.appendChild(cellWithName);
-  
-      const cellWithFlag = document.createElement('td');
-      cellWithFlag.classList.add('countries__table-cell', 'flag');
-      row.appendChild(cellWithFlag);
-  
-      const flagImage = document.createElement('img');
-      flagImage.classList.add('flag-image');
-      flagImage.src = element.flag;
-      cellWithFlag.appendChild(flagImage);
-    });
-    
-  };
+  if (document.querySelector('#countries__table')) {
+    document.querySelector('#countries__table').remove();
+  }
+
+  const table = document.createElement('table');
+  table.id = 'countries__table';
+  infoTable.appendChild(table);
+
+  dataForCreation.forEach((element) => {
+    const row = document.createElement('tr');
+    row.classList.add('countries__table-row');
+    table.appendChild(row);
+
+    const cellWithData = document.createElement('td');
+    cellWithData.classList.add('countries__table-cell', 'data');
+    cellWithData.innerText = element.data.toLocaleString();
+    row.appendChild(cellWithData);
+
+    const cellWithName = document.createElement('td');
+    cellWithName.classList.add('countries__table-cell', 'data');
+    cellWithName.innerText = element.name;
+    row.appendChild(cellWithName);
+
+    const cellWithFlag = document.createElement('td');
+    cellWithFlag.classList.add('countries__table-cell', 'flag');
+    row.appendChild(cellWithFlag);
+
+    const flagImage = document.createElement('img');
+    flagImage.classList.add('flag-image');
+    flagImage.src = element.flag;
+    cellWithFlag.appendChild(flagImage);
+  });
+};
 
 const firstPageLoad = () => {
-    getDataByCountry();
+  getDataByCountry();
 };
 
 firstPageLoad();
@@ -236,7 +235,7 @@ const changeDataInAllModules = (event) => {
     state.deaths = true;
     buttonDeathAddSelect();
     sortCountryDataByClick();
-  } 
+  }
 };
 
 infoTable.addEventListener('click', (event) => changeDataInAllModules(event));
