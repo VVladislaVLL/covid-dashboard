@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>COVID-2019 Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <div class="wrapper">
+            <div class="header-content">
+                <h1 class="block-name">Header</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div class="main-columns">
+                <div class="left-column">
+                    <div id="global-cases" class="column-item">
+                        <h1 class="block-name">Global Cases</h1>
+                    </div>
+                    <div id="countries-list" class="column-item">
+                        <h1 class="block-name">Countries List</h1>
+                        <div class="search-box">
+                            <input type="text" id="search-input" placeholder="Search Country...">
+                            <img class="close" src="../close.svg" alt="close">
+                        </div>
+                    </div>
+                </div>
+                <div class="center-column">
+                    <div id="map" class="column-item">
+                        <h1 class="block-name">Map</h1>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div id="info-table" class="column-item">
+                        <h1 class="block-name">Table</h1>
+                    </div>
+                    <div id="diagram" class="column-item">
+                        <h1 class="block-name">Diagram</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../js/currentInfected.js"></script>
+    <script type="module" src="../js/infected__list.js"></script>
+
+</body>
+
+</html>

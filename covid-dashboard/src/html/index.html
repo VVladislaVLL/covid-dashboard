@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
@@ -24,8 +25,32 @@
                     <div id="global-cases" class="column-item">
                         <h1 class="block-name">Global Cases</h1>
                     </div>
-                    <div id="countries-list" class="column-item">
-                        <h1 class="block-name">Countries List</h1>
+                    <div class="countries-list column-item">
+                        <button class="countries-list__btn"></button>
+                        <h1 class="block-name-list">Countries List</h1>
+                        <div class="list-group">
+
+                            <select id="select-field-category">
+                                <option value="0" selected>Total Confirmed</option>
+                                <option value="1">TotalRecovered</option>
+                                <option value="2">Total Deaths</option>
+                            </select>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" class="use-keyboard-input" placeholder="Search Country...">
+                        </div>
+                        <div class="category-names">
+                            <div class="buttons-block">
+                                <h5 class="buttons-name">Cases</h5>
+                                <button class="countries-sort-high sort-btn"></button>
+                                <button class="countries-sort-low sort-btn"></button>
+                            </div>
+                            <div class="buttons-block">
+                                <h5 class="buttons-name">Country</h5>
+                                <button class="sort-by-name-from-Z sort-btn"></button>
+                                <button class="sort-by-name-from-A sort-btn"></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="center-column">
@@ -82,4 +107,5 @@
         </div>
     </main>
 </body>
+
 </html>
