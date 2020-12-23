@@ -209,7 +209,6 @@ const legend = L.control({ position: 'bottomleft' });
 legend.onAdd = function (map) {
   const div = L.DomUtil.create('div', 'info legend');
   const grades = [0, 100, 1000, 10000, 100000, 1000000, 10000000];
-  const labels = [];
 
   div.innerHTML = '<h4>Legend</h4>';
   div.innerHTML += '<ul>';
@@ -224,3 +223,10 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
+const divMap = document.querySelector('#mapid');
+divMap.addEventListener('keypress', (e) => {
+  if (e.keyCode === 111) {
+    document.querySelector('#mapid').requestFullscreen();
+  }
+});

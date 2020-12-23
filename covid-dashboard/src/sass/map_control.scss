@@ -37,7 +37,15 @@
     background-color: #333;
   }
 }
-
+.map-info-row {
+  display: flex;
+  justify-content: space-between;
+  & p {
+    color: #555;
+    font-size: 14px;
+    line-height: 30px;
+  }
+}
 @media (max-width:1024px) {
   #mapid {
     height: 600px;
