@@ -30,10 +30,21 @@
                 </div>
                 <div class="right-column">
                     <div id="info-table" class="column-item">
-                        <h1 class="block-name">Table</h1>
+                        <!-- <h1 class="block-name">Table</h1> -->
+                        <div class="button__statistics-panel">
+                            <button class="button__all-period-countries button select">ALL PERIOD</button>
+                            <button class="button__last-day-countries button">TODAY</button>
+                            <button class="button__abs-countries button button_margin select">ABS</button>
+                            <button class="button__per-population-countries button">PER 100K</button>
+                        </div>
+                        <div class="button__control-panel">
+                            <button class="button__confirmed-countries button select">CONFIRMED</button>
+                            <button class="button__recovered-countries button">RECOVERED</button>
+                            <button class="button__deaths-countries button">DEATHS</button>
+                        </div>
                     </div>
                     <div id="diagram" class="column-item">
-                        <h1 class="block-name">Diagram</h1>
+                        <canvas id="chart" width="400" height="240"></canvas>
                     </div>
                 </div>
             </div>
