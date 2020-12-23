@@ -92,7 +92,7 @@ module.exports = {
         main: './src/js/index.js',
         map: './src/js/map.js',
         // fullscreen: './src/js/Control.FullScreen.js',
-        // globalCases: './src/js/global-cases.js',
+        // globalCases: './src/js /global-cases.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
