@@ -120,7 +120,6 @@ function highlightCountry(e) {
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
   }
-  console.log(layer.feature.properties);
   info.update(layer.feature.properties);
 }
 
